@@ -5,6 +5,34 @@ on:
     branches:
       - main
   workflow_dispatch:
+name: Run Program 
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      - name: Run Python file
+        env:
+          Graphql_Token: ${{ secrets.Graphql_Token }}
+        run: |
+          python main.py
 
 jobs:
   run-python:
