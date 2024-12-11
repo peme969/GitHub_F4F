@@ -2,7 +2,7 @@ import requests,os
 BASE_URL = 'https://api.github.com/users/peme969'
 following_url = f'{BASE_URL}/following'
 followers_url = f'{BASE_URL}/followers'
-GITHUB_TOKEN = os.environ['Github_Token']
+GITHUB_TOKEN = os.environ['Graphql_Token']
 HEADERS = {
     'Authorization': f'token {GITHUB_TOKEN}',
     'Accept': 'application/vnd.github.v3+json',
