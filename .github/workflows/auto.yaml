@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '*.py'
   workflow_dispatch:
   schedule:
     - cron: '30 0 * * *' # 6:30 PM CST 
