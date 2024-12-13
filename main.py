@@ -7,8 +7,8 @@ exc_4f = os.environ['Exceptions_follow'] # for multiple users seperate by a comm
 exc_f = os.environ['Exceptions_following'] # for multiple users seperate by a comma (eg. user1, user2, user3)
 exceptions['followers'].extend([user.strip() for user in exc_f.split(',')])
 exceptions['followering'].extend([user.strip() for user in exc_4f.split(',')])
-not_ = ''
-yes = ''
+not_ = []
+yes = []
 GITHUB_TOKEN = os.environ['Graphql_Token']
 HEADERS = {
     'Authorization': f'token {GITHUB_TOKEN}',
@@ -48,10 +48,7 @@ def follow_user(username):
                 print(f'\033[1;32mSuccessfully followed {username}.\033[0m')
             else:
                 print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
-                if yes == '':
-                    yes+=username
-                else:
-                    yes+=', '+username
+                yes.append(username)
         else:
             print(f'\033[1;31mFailed to follow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
@@ -65,10 +62,7 @@ def unfollow_user(username):
                 print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
             else:
                 print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
-                if not_ == '':
-                    not_+=username
-                else:
-                    not_+=', '+username
+                not_.append(username)
         else:
             print(f'\033[1;31mGithub API error. Failed to unfollow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
@@ -89,3 +83,5 @@ print("\033[1;34mProcessing complete!\033[0m")
 print(f'\033[1;34m📊 Summary:\033[0m')
 print(f'\033[1;33m🔴 {len(not_followers)} user(s) you follow but don\'t follow you back.\033[0m')
 print(f'\033[1;36m🟢 {len(not_following_back)} user(s) follow you but you don\'t follow back.\033[0m')
+print('\033[1mUsers that were in your \033[3mfollowing\033[0m\033[1m exceptions list\033[0m')
+print(f'  • {}')
