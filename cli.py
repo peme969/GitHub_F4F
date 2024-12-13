@@ -7,6 +7,8 @@ exc_4f = os.environ['Exceptions_follow'] # for multiple users seperate by a comm
 exc_f = os.environ['Exceptions_following'] # for multiple users seperate by a comma (eg. user1, user2, user3)
 exceptions['followers'].extend([user.strip() for user in exc_f.split(',')])
 exceptions['followering'].extend([user.strip() for user in exc_4f.split(',')])
+not_ = ''
+yes = ''
 GITHUB_TOKEN = os.environ['Graphql_Token']
 HEADERS = {
     'Authorization': f'token {GITHUB_TOKEN}',
