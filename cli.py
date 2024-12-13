@@ -46,6 +46,10 @@ def follow_user(username):
                 print(f'\033[1;32mSuccessfully followed {username}.\033[0m')
             else:
                 print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
+                if yes == '':
+                    yes+=username
+                else:
+                    yes+=', '+username
         else:
             print(f'\033[1;31mFailed to follow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
@@ -59,6 +63,10 @@ def unfollow_user(username):
                 print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
             else:
                 print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
+                if not_ == '':
+                    not_+=username
+                else:
+                    not_+=', '+username
         else:
             print(f'\033[1;31mGithub API error. Failed to unfollow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
