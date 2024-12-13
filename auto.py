@@ -7,6 +7,24 @@ HEADERS = {
     'Authorization': f'token {GITHUB_TOKEN}',
     'Accept': 'application/vnd.github.v3+json',
 }
+def check_exception(which,data):
+    exceptions = {'following':[],'followers':[]}
+    exc_4f = os.environ['Exceptions_follow'] # for multiple users seperate by a comma (eg. user1, user2, user3)
+    exc_f = os.environ['Exceptions_following'] # for multiple users seperate by a comma (eg. user1, user2, user3)
+    exceptions['followers'].extend([user.strip() for user in exc_f.split(',')]
+    exceptions['followering'].extend([user.strip() for user in exc_4f.split(',')]                               
+    if which == 'follower':
+        if data in exceptions['followers']:
+            return False
+        else:
+            return True
+     elif which == 'following':
+        if data in exceptions['following']:
+            return False
+        else:
+            return True
+     else:
+        print('Sorry, this option doesnt exist :(')
 def fetch_all(url):
     results = []
     while url:
