@@ -26,5 +26,7 @@ jobs:
       - name: Run Python file
         env:
           Graphql_Token: ${{ secrets.Graphql_Token }}
+          Exceptions_follow: ${{ secrets.Exceptions_follow }}
+          Exceptions_following: ${{ secrets.Exceptions_following }}
         run: |
           python auto.py
