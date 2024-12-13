@@ -1,4 +1,4 @@
-name: Run Program 
+name: Manual Runner
 
 on:
   push:
