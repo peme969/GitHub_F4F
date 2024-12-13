@@ -17,13 +17,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-      - name: Prompt for confirmation
-        run: |
-          read -p "Are you sure you want to unfollow and follow people automatically? (yes/no): " CONFIRMATION
-          if [ "$CONFIRMATION" != "yes" ]; then
-            echo "Operation canceled."
-            exit 1
-          fi
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -34,5 +27,7 @@ jobs:
       - name: Run Python file
         env:
           Graphql_Token: ${{ secrets.Graphql_Token }}
+          Exceptions_follow: ${{ secrets.Exceptions_follow }}
+          Exceptions_following: ${{ secrets.Exceptions_following }}
         run: |
           python main.py
