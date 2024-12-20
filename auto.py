@@ -3,8 +3,8 @@ BASE_URL = 'https://api.github.com/users/peme969'
 following_url = f'{BASE_URL}/following'
 followers_url = f'{BASE_URL}/followers'
 exceptions = {'following':[],'followers':[]}
-exc_4f = os.environ['Exceptions_follow'] # for multiple users seperate by a comma (eg. user1, user2, user3)
-exc_f = os.environ['Exceptions_following'] # for multiple users seperate by a comma (eg. user1, user2, user3)
+exc_4f = os.environ['Exceptions_follow'] # for multiple users, seperate by a comma (eg. user1, user2, user3)
+exc_f = os.environ['Exceptions_following'] # for multiple users, seperate by a comma (eg. user1, user2, user3)
 exceptions['followers'].extend([user.strip() for user in exc_f.split(',')])
 exceptions['followering'].extend([user.strip() for user in exc_4f.split(',')])
 not_ = []
@@ -87,3 +87,7 @@ else:
     print(f'\033[1;34m📊 Summary:\033[0m')
     print(f'\033[1;33m🔴 {len(not_followers)} user(s) you follow but don\'t follow you back.\033[0m')
     print(f'\033[1;36m🟢 {len(not_following_back)} user(s) follow you but you don\'t follow back.\033[0m')
+    print('\033[1mUsers who follow you but you don\'t follow back:\033[0m')
+    print('\n', *yes, sep='\n\033[33;1m  •\033[0m ')
+    print('\033[31mUsers who \033[1myou\033[0m\033[31m follow but don\'t follow you \033[1mback\033[0m:')
+    print('\n', *not_, sep='\n\033[33;1m  •\033[0m ')
