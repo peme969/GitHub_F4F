@@ -44,7 +44,7 @@ def follow_user(username):
     try:
         response = requests.put(url, headers=HEADERS)
         if response.status_code == 204:
-            if check_exceptions('following',username):
+            if check_exception('following',username):
                 print(f'\033[1;32mSuccessfully followed {username}.\033[0m')
             else:
                 print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
@@ -58,7 +58,7 @@ def unfollow_user(username):
     try:
         response = requests.delete(url, headers=HEADERS)
         if response.status_code == 204:
-            if check_exceptions('followers',username):
+            if check_exception('followers',username):
                 print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
             else:
                 print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
