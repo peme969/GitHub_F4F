@@ -76,7 +76,7 @@ not_following_back = [user for user in followers if user not in following]
 if os.environ['Consent'].lower() != 'yes' or os.environ['Consent'] != 'y':
     print('\033[31;1mSorry, it seems like you havent provided consent to automate following and unfollowing users... Please change this by entering Yes or Y (not case sensitive) in the Action Secrets.\033[0m')
 else:
-    print('\033[37;1mConsent provided! Continuing WorkFlow\033[0m')
+    print('\033[32;1mConsent provided! Continuing WorkFlow...\033[0m')
     for user in not_followers:
         print(f'\033[1;33mYou follow {user}, but they don\'t follow you back.\033[0m')
         unfollow_user(user)
