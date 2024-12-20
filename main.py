@@ -20,7 +20,7 @@ def check_exception(which,data):
             return False
         else:
             return True
-     elif which == 'following':
+    elif which == 'following':
         if data in exceptions['following']:
             return False
         else:
