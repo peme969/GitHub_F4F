@@ -73,8 +73,9 @@ following = [user['login'].lower() for user in following_data]
 followers = [user['login'].lower() for user in followers_data] 
 not_followers = [user for user in following if user not in followers]
 not_following_back = [user for user in followers if user not in following]
-if os.environ['Consent'].lower() != 'yes' or os.environ['Consent'] != 'y':
+if os.environ['Consent'].lower() != 'yes' or os.environ['Consent'].lower() != 'y':
     print('\033[31;1mSorry, it seems like you havent provided consent to automate following and unfollowing users... Please change this by typing Yes or Y (not case sensitive) next time.\033[0m')
+    print(os.environ['Consent'].lower())
 else:
     print('\033[32;1mConsent provided! Continuing WorkFlow...\033[0m')
     for user in not_followers:
