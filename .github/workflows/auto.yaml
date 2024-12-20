@@ -1,11 +1,6 @@
 name: F4F Runner (every day at 6:30pm)
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '*.py'
   workflow_dispatch:
   schedule:
     - cron: '30 0 * * *' # 6:30 PM CST 
