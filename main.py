@@ -58,7 +58,7 @@ def unfollow_user(username):
     try:
         response = requests.delete(url, headers=HEADERS)
         if response.status_code == 204:
-            if check_exception('followers',username):
+            if check_exception('follower',username):
                 print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
             else:
                 print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
