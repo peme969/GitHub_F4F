@@ -28,5 +28,6 @@ jobs:
           Exceptions_follow: ${{ secrets.Exceptions_follow }}
           Exceptions_following: ${{ secrets.Exceptions_following }}
           Consent: ${{ inputs.consent}}
+          user: ${{ github.repository_owner }}
         run: |
           python main.py
