@@ -25,5 +25,6 @@ jobs:
           Graphql_Token: ${{ secrets.Graphql_Token }}
           Exceptions_follow: ${{ secrets.Exceptions_follow }}
           Exceptions_following: ${{ secrets.Exceptions_following }}
+          Consent: ${{ secrets.consent }}
         run: |
           python auto.py
