@@ -1,11 +1,6 @@
 name: Manual Runner
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '*.py'
   workflow_dispatch:
 
 jobs:
