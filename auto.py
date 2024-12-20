@@ -1,12 +1,13 @@
-import requests,os
+import requests, os
+
 BASE_URL = 'https://api.github.com/users/peme969'
 following_url = f'{BASE_URL}/following'
 followers_url = f'{BASE_URL}/followers'
-exceptions = {'following':[],'followers':[]}
-exc_4f = os.environ['Exceptions_follow'] # for multiple users, seperate by a comma (eg. user1, user2, user3)
-exc_f = os.environ['Exceptions_following'] # for multiple users, seperate by a comma (eg. user1, user2, user3)
+exceptions = {'following': [], 'followers': []}
+exc_4f = os.environ['Exceptions_follow']  # for multiple users separate by a comma (e.g., user1, user2, user3)
+exc_f = os.environ['Exceptions_following']  # for multiple users separate by a comma (e.g., user1, user2, user3)
 exceptions['followers'].extend([user.strip() for user in exc_f.split(',')])
-exceptions['followering'].extend([user.strip() for user in exc_4f.split(',')])
+exceptions['following'].extend([user.strip() for user in exc_4f.split(',')])
 not_ = []
 yes = []
 GITHUB_TOKEN = os.environ['Graphql_Token']
@@ -14,19 +15,9 @@ HEADERS = {
     'Authorization': f'token {GITHUB_TOKEN}',
     'Accept': 'application/vnd.github.v3+json',
 }
-def check_exception(which,data):                              
-    if which == 'follower':
-        if data in exceptions['followers']:
-            return False
-        else:
-            return True
-     elif which == 'following':
-        if data in exceptions['following']:
-            return False
-        else:
-            return True
-     else:
-        print('Sorry, this option doesnt exist :(')
+
+def check_exception(which, data):
+    return data not in exceptions[which]
 def fetch_all(url):
     results = []
     while url:
@@ -41,28 +32,28 @@ def fetch_all(url):
     return results
 def follow_user(username):
     url = f'https://api.github.com/user/following/{username}'
+    if not check_exception('follower', username):
+        print(f'\033[1;31mSkipping {username} as it is in the exceptions list.\033[0m')
+        yes.append(username)
+        return
     try:
         response = requests.put(url, headers=HEADERS)
         if response.status_code == 204:
-            if check_exception('following',username):
-                print(f'\033[1;32mSuccessfully followed {username}.\033[0m')
-            else:
-                print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
-                yes.append(username)
+            print(f'\033[1;32mSuccessfully followed {username}.\033[0m')
         else:
             print(f'\033[1;31mFailed to follow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
         print(f'\033[1;31mGithub API error. Error following {username}: {e}\033[0m')
 def unfollow_user(username):
     url = f'https://api.github.com/user/following/{username}'
+    if not check_exception('follower', username):
+        print(f'\033[1;31mSkipping {username} as it is in the exceptions list.\033[0m')
+        not_.append(username)
+        return
     try:
         response = requests.delete(url, headers=HEADERS)
         if response.status_code == 204:
-            if check_exception('followers',username):
-                print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
-            else:
-                print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
-                not_.append(username)
+            print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
         else:
             print(f'\033[1;31mGithub API error. Failed to unfollow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
