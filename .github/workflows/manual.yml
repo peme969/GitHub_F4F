@@ -2,7 +2,12 @@ name: Manual Runner
 
 on:
   workflow_dispatch:
-
+    inputs:
+        consent:
+                    default: 'Type here...'
+                    description: 'Are you sure you want to automatically unfollow and follow people?'
+                    required: true
+                    type: string
 jobs:
   run-python:
     runs-on: ubuntu-latest
@@ -26,5 +31,6 @@ jobs:
           Graphql_Token: ${{ secrets.Graphql_Token }}
           Exceptions_follow: ${{ secrets.Exceptions_follow }}
           Exceptions_following: ${{ secrets.Exceptions_following }}
+          Consent: ${{ inputs.consent}}
         run: |
           python main.py
