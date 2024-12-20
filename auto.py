@@ -1,6 +1,6 @@
 import requests, os
 
-BASE_URL = 'https://api.github.com/users/peme969'
+BASE_URL = f'https://api.github.com/users/{os.environ['user']}'
 following_url = f'{BASE_URL}/following'
 followers_url = f'{BASE_URL}/followers'
 exceptions = {'following': [], 'followers': []}
