@@ -1,10 +1,11 @@
-import requests,os
+import requests, os
+
 BASE_URL = 'https://api.github.com/users/peme969'
 following_url = f'{BASE_URL}/following'
 followers_url = f'{BASE_URL}/followers'
-exceptions = {'following':[],'followers':[]}
-exc_4f = os.environ['Exceptions_follow'] # for multiple users seperate by a comma (eg. user1, user2, user3)
-exc_f = os.environ['Exceptions_following'] # for multiple users seperate by a comma (eg. user1, user2, user3)
+exceptions = {'following': [], 'followers': []}
+exc_4f = os.environ['Exceptions_follow']  # for multiple users separate by a comma (e.g., user1, user2, user3)
+exc_f = os.environ['Exceptions_following']  # for multiple users separate by a comma (e.g., user1, user2, user3)
 exceptions['followers'].extend([user.strip() for user in exc_f.split(',')])
 exceptions['following'].extend([user.strip() for user in exc_4f.split(',')])
 not_ = []
@@ -14,19 +15,10 @@ HEADERS = {
     'Authorization': f'token {GITHUB_TOKEN}',
     'Accept': 'application/vnd.github.v3+json',
 }
-def check_exception(which,data):                              
-    if which == 'follower':
-        if data in exceptions['followers']:
-            return False
-        else:
-            return True
-    elif which == 'following':
-        if data in exceptions['following']:
-            return False
-        else:
-            return True
-    else:
-        print('Sorry, this option doesnt exist :(')
+
+def check_exception(which, data):
+    return data not in exceptions[which]
+
 def fetch_all(url):
     results = []
     while url:
@@ -39,42 +31,44 @@ def fetch_all(url):
             print(f"Error fetching data from {url}: {e}")
             break
     return results
+
 def follow_user(username):
     url = f'https://api.github.com/user/following/{username}'
+    if not check_exception('following', username):
+        print(f'\033[1;31mSkipping {username} as it is in the exceptions list.\033[0m')
+        return
     try:
         response = requests.put(url, headers=HEADERS)
         if response.status_code == 204:
-            if check_exception('following',username):
-                print(f'\033[1;32mSuccessfully followed {username}.\033[0m')
-            else:
-                print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
-                yes.append(username)
+            print(f'\033[1;32mSuccessfully followed {username}.\033[0m')
         else:
             print(f'\033[1;31mFailed to follow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
         print(f'\033[1;31mGithub API error. Error following {username}: {e}\033[0m')
+
 def unfollow_user(username):
     url = f'https://api.github.com/user/following/{username}'
+    if not check_exception('follower', username):
+        print(f'\033[1;31mSkipping {username} as it is in the exceptions list.\033[0m')
+        return
     try:
         response = requests.delete(url, headers=HEADERS)
         if response.status_code == 204:
-            if check_exception('follower',username):
-                print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
-            else:
-                print(f'\033[1;31mSeems\033[0m like \033[1;31m{username}\033[0m was in your exceptions list.')
-                not_.append(username)
+            print(f'\033[1;32mSuccessfully unfollowed {username}.\033[0m')
         else:
             print(f'\033[1;31mGithub API error. Failed to unfollow {username}. {response.json()}\033[0m')
     except requests.exceptions.RequestException as e:
         print(f'\033[1;31mError unfollowing {username}: {e}\033[0m')
+
 following_data = fetch_all(following_url)
 followers_data = fetch_all(followers_url)
-following = [user['login'].lower() for user in following_data]  
-followers = [user['login'].lower() for user in followers_data] 
+following = [user['login'].lower() for user in following_data]
+followers = [user['login'].lower() for user in followers_data]
 not_followers = [user for user in following if user not in followers]
 not_following_back = [user for user in followers if user not in following]
+
 if os.environ['Consent'].lower() != 'yes':
-    print('\033[31;1mSorry, it seems like you havent provided consent to automate following and unfollowing users... Please change this by typing Yes (not case sensitive) next time.\033[0m')
+    print('\033[31;1mSorry, it seems like you haven\'t provided consent to automate following and unfollowing users... Please change this by typing Yes (not case sensitive) next time.\033[0m')
 else:
     print('\033[32;1mConsent provided! Continuing WorkFlow...\033[0m')
     for user in not_followers:
