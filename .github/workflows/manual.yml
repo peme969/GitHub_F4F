@@ -5,7 +5,7 @@ on:
     inputs:
         consent:
                     default: 'Type here...'
-                    description: 'Are you sure you want to automatically unfollow and follow people?'
+                    description: 'Are you sure you want to automatically unfollow and follow people? (Type Yes or No)'
                     required: true
                     type: string
 jobs:
