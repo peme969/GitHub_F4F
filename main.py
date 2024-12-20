@@ -25,7 +25,7 @@ def check_exception(which,data):
             return False
         else:
             return True
-     else:
+    else:
         print('Sorry, this option doesnt exist :(')
 def fetch_all(url):
     results = []
