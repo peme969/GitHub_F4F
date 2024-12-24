@@ -6,7 +6,7 @@ followers_url = f'{BASE_URL}/followers'
 exceptions = {'following': [], 'follower': []}
 exc_4f = os.environ['Exceptions_follow']  # for multiple users separate by a comma (e.g., user1, user2, user3)
 exc_f = os.environ['Exceptions_following']  # for multiple users separate by a comma (e.g., user1, user2, user3)
-exceptions['followers'].extend([user.strip() for user in exc_f.split(',')])
+exceptions['follower'].extend([user.strip() for user in exc_f.split(',')])
 exceptions['following'].extend([user.strip() for user in exc_4f.split(',')])
 not_ = []
 yes = []
