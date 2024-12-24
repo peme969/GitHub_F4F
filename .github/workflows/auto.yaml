@@ -28,3 +28,16 @@ jobs:
           user: ${{ github.repository_owner }}
         run: |
           python auto.py
+  delete-old-runs:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          keep_minimum_runs: 0
+          retain_days: 0
