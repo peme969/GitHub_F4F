@@ -3,7 +3,7 @@ import requests, os
 BASE_URL = f'https://api.github.com/users/{os.environ['user']}'
 following_url = f'{BASE_URL}/following'
 followers_url = f'{BASE_URL}/followers'
-exceptions = {'following': [], 'followers': []}
+exceptions = {'following': [], 'follower': []}
 exc_4f = os.environ['Exceptions_follow']  # for multiple users separate by a comma (e.g., user1, user2, user3)
 exc_f = os.environ['Exceptions_following']  # for multiple users separate by a comma (e.g., user1, user2, user3)
 exceptions['followers'].extend([user.strip() for user in exc_f.split(',')])
@@ -46,7 +46,7 @@ def follow_user(username):
         print(f'\033[1;31mGithub API error. Error following {username}: {e}\033[0m')
 def unfollow_user(username):
     url = f'https://api.github.com/user/following/{username}'
-    if not check_exception('follower', username):
+    if not check_exception('following', username):
         print(f'\033[1;31mSkipping {username} as it is in the exceptions list.\033[0m')
         not_.append(username)
         return
